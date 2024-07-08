@@ -1,17 +1,16 @@
 package br.com.lkf.ControlContacts.service;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.lkf.ControlContacts.model.Pessoa;
 import br.com.lkf.ControlContacts.repository.PessoaRepository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class PessoaService {
-
     @Autowired
     private PessoaRepository pessoaRepository;
 

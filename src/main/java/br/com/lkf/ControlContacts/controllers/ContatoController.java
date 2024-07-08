@@ -3,17 +3,15 @@ package br.com.lkf.ControlContacts.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import br.com.lkf.ControlContacts.model.Contato;
 import br.com.lkf.ControlContacts.service.ContatoService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/contatos")
-@Tag(name = "Contato", description = "API para gerenciamento de Contatos")
 public class ContatoController {
 
     @Autowired
@@ -21,7 +19,7 @@ public class ContatoController {
 
     @PostMapping
     @Operation(summary = "Adiciona um novo Contato a uma Pessoa")
-    public Contato createContato(@RequestBody @Valid Contato contato) {
+    public Contato createContato(@RequestBody Contato contato) {
         return contatoService.save(contato);
     }
 
@@ -41,7 +39,7 @@ public class ContatoController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza um Contato existente por ID")
-    public ResponseEntity<Contato> updateContato(@PathVariable Long id, @RequestBody @Valid Contato contato) {
+    public ResponseEntity<Contato> updateContato(@PathVariable Long id, @RequestBody Contato contato) {
         if (!contatoService.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }

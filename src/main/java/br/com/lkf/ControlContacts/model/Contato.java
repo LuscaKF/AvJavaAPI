@@ -1,6 +1,7 @@
 package br.com.lkf.ControlContacts.model;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -9,32 +10,28 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Contato {
-
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "ID do Contato", example = "1")
     private Long id;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
-    @Schema(description = "Tipo de Contato", example = "TELEFONE")
+    @NotNull
     private TipoContato tipoContato;
 
-    @NotNull
-    @Schema(description = "Número do Contato", example = "123456789")
+    @NotBlank
     private String contato;
 
     @ManyToOne
     @JoinColumn(name = "pessoa_id")
-    @Schema(description = "Pessoa associada ao Contato")
+    @JsonBackReference
     private Pessoa pessoa;
 
-    // Getters e Setters
-
+    // Getters and Setters
     public Long getId() {
         return id;
     }

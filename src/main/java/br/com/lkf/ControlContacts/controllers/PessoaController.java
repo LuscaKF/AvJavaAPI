@@ -1,24 +1,16 @@
 package br.com.lkf.ControlContacts.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.lkf.ControlContacts.dto.MalaDiretaDTO;
 import br.com.lkf.ControlContacts.model.Pessoa;
 import br.com.lkf.ControlContacts.service.PessoaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/pessoas")
@@ -30,7 +22,7 @@ public class PessoaController {
 
     @PostMapping
     @Operation(summary = "Cria uma nova Pessoa")
-    public Pessoa createPessoa(@RequestBody @Valid Pessoa pessoa) {
+    public Pessoa createPessoa(@RequestBody Pessoa pessoa) {
         return pessoaService.save(pessoa);
     }
 
@@ -50,7 +42,7 @@ public class PessoaController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza uma Pessoa existente por ID")
-    public ResponseEntity<Pessoa> updatePessoa(@PathVariable Long id, @RequestBody @Valid Pessoa pessoa) {
+    public ResponseEntity<Pessoa> updatePessoa(@PathVariable Long id, @RequestBody Pessoa pessoa) {
         if (!pessoaService.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }
@@ -58,8 +50,8 @@ public class PessoaController {
         return ResponseEntity.ok(pessoaService.save(pessoa));
     }
 
-    @DeleteMapping("/{id}")
     @Operation(summary = "Remove uma Pessoa por ID")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePessoa(@PathVariable Long id) {
         if (!pessoaService.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
@@ -74,7 +66,7 @@ public class PessoaController {
         return pessoaService.findById(id)
                 .map(pessoa -> {
                     String malaDireta = String.format("%s, %s – CEP: %s – %s/%s",
-                            pessoa.getEndereco(), pessoa.getCidade(), pessoa.getCep(), pessoa.getCidade(), pessoa.getUf());
+                            pessoa.getEndereco(), pessoa.getCidade(), pessoa.getCep(), pessoa.getUf());
                     MalaDiretaDTO dto = new MalaDiretaDTO(pessoa.getId(), pessoa.getNome(), malaDireta);
                     return ResponseEntity.ok(dto);
                 })
