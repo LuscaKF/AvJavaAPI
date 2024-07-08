@@ -192,3 +192,6 @@ POST de contato:
 
 SHOW de contatos por pessoa:
 ![image](https://github.com/LuscaKF/AvJavaAPI/assets/62342102/55df3f7c-0d59-45a8-b406-60f131f60c4c)
+
+MalaDiretaDTO:
+![image](https://github.com/LuscaKF/AvJavaAPI/assets/62342102/cc97f5ab-40cc-43ce-8b6e-cbc960b85412)
