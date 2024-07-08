@@ -4,13 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import br.com.lkf.ControlContacts.dto.MalaDiretaDTO;
 import br.com.lkf.ControlContacts.model.Pessoa;
+import br.com.lkf.ControlContacts.repository.PessoaRepository;
 import br.com.lkf.ControlContacts.service.PessoaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/pessoas")
@@ -19,6 +20,13 @@ public class PessoaController {
 
     @Autowired
     private PessoaService pessoaService;
+    
+    private final PessoaRepository pessoaRepository;
+    
+    @Autowired
+    public PessoaController(PessoaRepository pessoaRepository) {
+        this.pessoaRepository = pessoaRepository;
+    }
 
     @PostMapping
     @Operation(summary = "Cria uma nova Pessoa")
@@ -60,16 +68,18 @@ public class PessoaController {
         return ResponseEntity.noContent().build();
     }
     
-    @GetMapping("/maladireta/{id}")
+    @GetMapping("/{id}/malaDireta")
     @Operation(summary = "Retorna os dados de uma Pessoa por ID para mala direta")
-    public ResponseEntity<MalaDiretaDTO> getMalaDiretaById(@PathVariable Long id) {
-        return pessoaService.findById(id)
-                .map(pessoa -> {
-                    String malaDireta = String.format("%s, %s – CEP: %s – %s/%s",
-                            pessoa.getEndereco(), pessoa.getCidade(), pessoa.getCep(), pessoa.getUf());
-                    MalaDiretaDTO dto = new MalaDiretaDTO(pessoa.getId(), pessoa.getNome(), malaDireta);
-                    return ResponseEntity.ok(dto);
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<String> getMalaDiretaById(@PathVariable Long id) {
+        Optional<Pessoa> pessoa = pessoaRepository.findById(id);
+
+        if (pessoa.isPresent()) {
+            Pessoa p = pessoa.get();
+            String malaDireta = String.format("Nome: %s, Endereço: %s, CEP: %s, Cidade: %s, UF: %s",
+                    p.getNome(), p.getEndereco(), p.getCep(), p.getCidade(), p.getUf());
+            return ResponseEntity.ok(malaDireta);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
