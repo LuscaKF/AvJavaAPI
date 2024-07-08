@@ -85,17 +85,13 @@ GET /api/pessoas/{id}
 Retorna os dados de uma Pessoa por ID.
 
 
-GET /api/pessoas/maladireta/{id}
+GET /api/pessoas/{id}/malaDireta
 Retorna os dados de uma Pessoa por ID para mala direta.
 
 Exemplo de Response:
 
 ```json
-{
-  "id": 1,
-  "nome": "João Silva",
-  "malaDireta": "Rua A, 123 – CEP: 12345-678 – São Paulo/SP"
-}
+Nome: Lucas Kirow Fernandes, Endereço: Rua Helena, 269, CEP: 06320310, Cidade: Carapicuíba, UF: SP
 ```
 
 GET /api/pessoas
