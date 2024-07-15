@@ -47,7 +47,7 @@ springdoc.swagger-ui.path=/swagger-ui.html
 ## Clone o repositório:
 
 ```bash
-git clone https://github.com/seu_usuario/ControlContacts.git
+git clone https://github.com/LuscaKF/AvJavaAPI.git
 Navegue até o diretório do projeto:
 
 cd ControlContacts
